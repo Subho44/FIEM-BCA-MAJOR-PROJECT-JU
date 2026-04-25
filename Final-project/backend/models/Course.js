@@ -13,6 +13,8 @@ const courseschema = new mongoose.Schema(
         type:String,
       },
     ],
+    user:String,
+    createedbyrole:String,
   },
   { timestamps: true }
 );

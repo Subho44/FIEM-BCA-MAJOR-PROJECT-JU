@@ -1,5 +1,6 @@
 const Course = require("../models/Course");
 
+
 // add course
 exports.addcourse = async (req, res) => {
   try {
@@ -14,6 +15,7 @@ exports.addcourse = async (req, res) => {
       category,
       description,
       images:imageFiles,
+      
     });
 
     res.status(201).json({ message: "course added successfully", newcourse });
