@@ -12,7 +12,12 @@ import AddCourse from "./pages/Addcourse";
 import EditCourse from "./pages/Editcourse";
 import SingleCourse from "./pages/Singelcourse";
 
-
+import Register from "./pages/Register";
+import VerifyOtp from "./pages/VerifyOtp";
+import Login from "./pages/Login";
+import AdminDashboard from "./pages/AdminDashboard";
+import InstructorDashboard from "./pages/InstructorDashboard";
+import StudentDashboard from "./pages/StudentDashboard";
 
 const App = () => {
   return (
@@ -32,6 +37,12 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/f" element={<Feature />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/instructor-dashboard" element={<InstructorDashboard />} />
+        <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/login" element={<Login />} />
         </Routes>
       </div>
 

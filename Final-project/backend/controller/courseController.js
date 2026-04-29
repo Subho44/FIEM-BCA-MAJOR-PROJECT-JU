@@ -1,103 +1,127 @@
 const Course = require("../models/Course");
 
-
-// add course
-exports.addcourse = async (req, res) => {
+exports.addCourse = async (req, res) => {
   try {
-    const { title, instructor, duration, price, category, description } = req.body;
-    const imageFiles = req.files ? req.files.map((file)=>file.filename) : [];
+    const { title, instructor, price, duration, category, description } =
+      req.body;
 
-    const newcourse = await Course.create({
+    if (!title || !instructor || !price || !duration || !category || !description) {
+      return res.status(400).json({ message: "All course fields are required" });
+    }
+
+    const images = req.files ? req.files.map((file) => file.filename) : [];
+
+    const course = await Course.create({
       title,
       instructor,
-      duration,
       price,
+      duration,
       category,
       description,
-      images:imageFiles,
-      
+      images,
+      createdBy: req.user.id,
+      createdByRole: req.user.role,
     });
 
-    res.status(201).json({ message: "course added successfully", newcourse });
-  } catch (err) {
-    res.status(400).json({ message: "course not added successfully", err });
+    res.status(201).json({
+      message: "Course added successfully",
+      course,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || "Course add failed",
+    });
   }
 };
 
-// view all course
-exports.viewcourse = async (req, res) => {
+exports.getCourses = async (req, res) => {
   try {
     const courses = await Course.find().sort({ createdAt: -1 });
     res.status(200).json(courses);
-  } catch (err) {
-    res.status(400).json({ message: "cannot fetch courses", err });
+  } catch (error) {
+    res.status(500).json({ message: "Course fetch failed" });
   }
 };
 
-// single view
-exports.singelcourse = async (req, res) => {
+exports.getSingleCourse = async (req, res) => {
   try {
-    const { id } = req.params;
-    const course = await Course.findById(id);
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
     res.status(200).json(course);
-  } catch (err) {
-    res.status(400).json({ message: "cannot fetch single course", err });
+  } catch (error) {
+    res.status(500).json({ message: "Single course fetch failed" });
   }
 };
 
-// update
-exports.updatecourse = async (req, res) => {
-
+exports.updateCourse = async (req, res) => {
   try {
-     const { title, instructor, duration, price, category, description } = req.body;
-     const oldcourse = await Course.findById(req.params.id);
-     if(!oldcourse) {
-      return res.status(400).json({ message: "course not found"});
-     }
-     let updatedimages = oldcourse.images;
-     if(req.files && req.files.length >0){
-      updatedimages = req.files.map((file)=> file.filename);
-     }
+    const oldCourse = await Course.findById(req.params.id);
 
-    
-    const course = await Course.findByIdAndUpdate(
+    if (!oldCourse) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    let images = oldCourse.images;
+
+    if (req.files && req.files.length > 0) {
+      images = req.files.map((file) => file.filename);
+    }
+
+    const updatedCourse = await Course.findByIdAndUpdate(
       req.params.id,
       {
-      title,
-      instructor,
-      duration,
-      price,
-      category,
-      description,
-      images:updatedimages,
-    },
-     { new: true });
+        title: req.body.title,
+        instructor: req.body.instructor,
+        price: req.body.price,
+        duration: req.body.duration,
+        category: req.body.category,
+        description: req.body.description,
+        images,
+      },
+      { new: true }
+    );
 
-    res.status(200).json(course);
-  } catch (err) {
-    res.status(400).json({ message: "course not updated", err });
+    res.status(200).json({
+      message: "Course updated successfully",
+      course: updatedCourse,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || "Course update failed",
+    });
   }
 };
 
-// delete
-exports.deletecourse = async (req, res) => {
+exports.deleteCourse = async (req, res) => {
   try {
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
     await Course.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "course deleted" });
-  } catch (err) {
-    res.status(400).json({ message: "course not deleted", err });
+
+    res.status(200).json({ message: "Course deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Course delete failed" });
   }
 };
 
-// search
-exports.searchcourse = async (req, res) => {
+exports.searchCourse = async (req, res) => {
   try {
     const keyword = req.params.keyword;
-    const course = await Course.find({
-      title: { $regex: keyword, $options: "i" }
+
+    const courses = await Course.find({
+      title: { $regex: keyword, $options: "i" },
     });
-    res.status(200).json(course);
-  } catch (err) {
-    res.status(400).json({ message: "search failed", err });
+
+    res.status(200).json(courses);
+  } catch (error) {
+    res.status(500).json({ message: "Search failed" });
   }
 };

@@ -1,30 +1,35 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const connectdb = require("./config/db");
-const courserouter = require("./routes/courseRoutes");
-const authrouter = require("./routes/authRoutes");
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
 const path = require("path");
+const connectDB = require("./config/db");
 
 dotenv.config();
 
 const app = express();
 
-//static images 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(cors());
+connectDB();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-connectdb();
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.use('/api/courses', courserouter);
-app.use("/api/auth",authrouter);
+app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/courses", require("./routes/courseRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));
 
-app.get('/', (req, res) => {
-  res.send("api is running");
+app.get("/", (req, res) => {
+  res.send("API running...");
 });
 
-const port = process.env.PORT || 5500;
-app.listen(port, () => {
-  console.log(`server is running on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server running on port ${process.env.PORT}`);
 });
