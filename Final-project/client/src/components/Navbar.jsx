@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/login");
   };
 
@@ -27,12 +29,50 @@ const Navbar = () => {
           <Link to="/" className="hover:text-blue-600">Home</Link>
           <Link to="/about" className="hover:text-blue-600">About</Link>
           <Link to="/contact" className="hover:text-blue-600">Contact</Link>
+          {
+          user?.role ==="student" &&
+          <Link to="/student-dashboard" className="hover:text-blue-600">
+          Student
+          </Link>
+          }
+          {
+          user?.role ==="admin" &&
+          <Link to="/admin-dashboard"  className="hover:text-blue-600">
+          Admin
+          </Link>
+          }
+          {
+          user?.role ==="instructor" &&
+          <Link to="/instructor-dashboard" className="hover:text-blue-600">
+          Instructor
+          </Link>
+          }
+
+          {
+          (user?.role ==="admin" ||  user?.role ==="instructor")  &&(
           <Link
               to="/add-course"
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
             >
               Add Course
             </Link>
+         )}
+
+         {!token ? (
+          <>
+           <Link to="/register" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+           Register
+          </Link>
+          <Link to="/login" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+           Login
+          </Link>
+
+          </>
+         ):(
+          <button onClick={logout} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Logout</button>
+
+         )}
+          
        
         </div>
       </div>
