@@ -18,6 +18,9 @@ import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import InstructorDashboard from "./pages/InstructorDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
+import LiveClasses from "./pages/Liveclasses";
+import Createliveclass from "./pages/Createliveclass";
+import JoinLiveClass from "./pages/Joinliveclass";
 
 const App = () => {
   return (
@@ -27,7 +30,10 @@ const App = () => {
       <div className="min-h-screen">
         <Routes>
           <Route path="/" element={<Home />} />
-
+          
+          <Route path="/live-classes" element={<LiveClasses />} />
+          <Route path="/create-live-class" element={<Createliveclass/>} />
+          <Route path="/join-live-class/:id" element={<JoinLiveClass />} />
          
 
           <Route path="/add-course" element={<AddCourse />} />

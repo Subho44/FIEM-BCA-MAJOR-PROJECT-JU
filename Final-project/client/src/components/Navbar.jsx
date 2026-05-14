@@ -29,6 +29,18 @@ const Navbar = () => {
           <Link to="/" className="hover:text-blue-600">Home</Link>
           <Link to="/about" className="hover:text-blue-600">About</Link>
           <Link to="/contact" className="hover:text-blue-600">Contact</Link>
+
+          <Link to="/live-classes" className="hover:text-blue-600">Live Classes</Link>
+
+           {
+          (user?.role ==="admin" ||  user?.role ==="instructor")  &&(
+          <Link
+              to="/create-live-class"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              Create Live
+            </Link>
+         )}
           {
           user?.role ==="student" &&
           <Link to="/student-dashboard" className="hover:text-blue-600">
