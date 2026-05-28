@@ -32,6 +32,7 @@ app.use("/api/courses", require("./routes/courseRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/api/liveclasses",require("./routes/liveClassroutes"));
 app.use("/api/messages", require("./routes/messageRoutes"));
+app.use("/api/chatbot", require("./routes/chatboatRoutes"));
 
 const server = http.createServer(app);
 const io = new Server(server,{

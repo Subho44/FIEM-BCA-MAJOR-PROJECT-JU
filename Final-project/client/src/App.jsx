@@ -22,6 +22,7 @@ import LiveClasses from "./pages/Liveclasses";
 import Createliveclass from "./pages/Createliveclass";
 import JoinLiveClass from "./pages/Joinliveclass";
 import ChatPage from "./pages/Chatpage";
+import CourseChatbot from "./pages/CourseChatbot";
 
 const App = () => {
   return (
@@ -36,7 +37,7 @@ const App = () => {
           <Route path="/create-live-class" element={<Createliveclass/>} />
           <Route path="/join-live-class/:id" element={<JoinLiveClass />} />
           <Route path="/chat" element={<ChatPage />} />
-         
+          <Route path="/course-chatbot" element={<CourseChatbot />} />
 
           <Route path="/add-course" element={<AddCourse />} />
           <Route path="/edit-course/:id" element={<EditCourse />} />
