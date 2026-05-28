@@ -21,6 +21,7 @@ import StudentDashboard from "./pages/StudentDashboard";
 import LiveClasses from "./pages/Liveclasses";
 import Createliveclass from "./pages/Createliveclass";
 import JoinLiveClass from "./pages/Joinliveclass";
+import ChatPage from "./pages/Chatpage";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/live-classes" element={<LiveClasses />} />
           <Route path="/create-live-class" element={<Createliveclass/>} />
           <Route path="/join-live-class/:id" element={<JoinLiveClass />} />
+          <Route path="/chat" element={<ChatPage />} />
          
 
           <Route path="/add-course" element={<AddCourse />} />

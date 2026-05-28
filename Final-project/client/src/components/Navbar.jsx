@@ -29,6 +29,12 @@ const Navbar = () => {
           <Link to="/" className="hover:text-blue-600">Home</Link>
           <Link to="/about" className="hover:text-blue-600">About</Link>
           <Link to="/contact" className="hover:text-blue-600">Contact</Link>
+          <Link
+            to="/chat"
+            className="bg-purple-600 text-white px-4 py-2 rounded-lg"
+          >
+            Chat
+          </Link>
 
           <Link to="/live-classes" className="hover:text-blue-600">Live Classes</Link>
 
